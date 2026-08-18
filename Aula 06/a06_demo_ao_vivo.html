@@ -1,211 +1,138 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 06 — Demo ao Vivo | Teste de Sistemas</title>
-<style>
-  :root{
-    --bg:#0f172a; --panel:#1b2b4d; --ink:#e6ebf5; --muted:#93a3c2;
-    --accent:#4ade80; --rule:#2b3a5e; --editor-bg:#0b1424;
-  }
-  *{box-sizing:border-box;}
-  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; height:100vh; display:flex; flex-direction:column; overflow:hidden;}
-  .hdr{display:flex; justify-content:space-between; align-items:center; padding:14px 28px; border-bottom:1px solid var(--rule); font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
-  .hdr b{color:var(--accent);}
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aula 06 — Demonstração ao vivo</title><style>
+:root{--bg:#08111f;--panel:#12233e;--ink:#edf4ff;--muted:#a9bad5;--accent:#4ade80;--blue:#60a5fa;--rule:#294261;--code:#07101d}*{box-sizing:border-box}body{margin:0;height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;overflow:hidden}code,.editor,.terminal{font-family:"JetBrains Mono",Consolas,monospace}.hdr{display:flex;justify-content:space-between;gap:12px;padding:11px 20px;border-bottom:1px solid var(--rule);font-size:12px;color:var(--muted)}.hdr b,.track a.active{color:var(--accent)}.track{display:flex;gap:7px}.track a{color:var(--muted);text-decoration:none}.main{display:grid;grid-template-columns:1.15fr .85fr;flex:1;min-height:0}.pane{display:flex;flex-direction:column;min-width:0}.pane:first-child{border-right:1px solid var(--rule)}.pane-title{padding:9px 16px;border-bottom:1px solid var(--rule);font:700 11px "JetBrains Mono",monospace;color:var(--muted);text-transform:uppercase}.editor{background:var(--code);padding:18px;overflow:auto;white-space:pre-wrap;font-size:12.2px;line-height:1.6;flex:1}.explain{padding:22px;overflow:auto;flex:1}.explain h2{font-size:28px;margin:0 0 9px}.explain p{color:var(--muted);line-height:1.6}.evidence{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px;margin-top:15px}.evidence b{color:var(--accent)}.terminal{background:#030711;border:1px solid var(--rule);border-radius:9px;padding:13px;margin-top:14px;color:#c3e88d;font-size:12px;white-space:pre-wrap}.k{color:#c792ea}.t{color:#ffcb6b}.s{color:#c3e88d}.c{color:#6f86a8;font-style:italic}.a{color:#89ddff}.n{color:#f78c6c}.narration{padding:11px 20px;border-top:1px solid var(--rule);color:var(--muted);font-size:13px}.controls{display:flex;align-items:center;gap:8px;padding:10px 20px;border-top:1px solid var(--rule)}button{background:var(--panel);border:1px solid var(--rule);color:var(--ink);padding:8px 12px;border-radius:6px;cursor:pointer}button:hover{border-color:var(--accent)}button:disabled{opacity:.35}.bar{height:5px;background:var(--panel);flex:1;border-radius:4px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--blue));transition:.25s}.count{font:700 11px "JetBrains Mono",monospace;color:var(--muted)}.footer{display:flex;justify-content:space-between;padding:10px 20px;border-top:1px solid var(--rule);font-size:12px}.footer a{color:var(--accent);text-decoration:none}@media(max-width:780px){.track{display:none}.main{grid-template-columns:1fr}.pane:first-child{border-right:0}.explain{display:none}.editor{font-size:10.9px}.hdr span:last-child{display:none}}
+</style></head><body><header class="hdr"><span>UC <b>Teste de Sistemas</b> · Aula 06 — Demonstração</span><nav class="track"><a href="a06_exposicao.html">Exposição</a><a class="active" href="a06_demo_ao_vivo.html">Demo</a><a href="a06_pratica_guiada.html">Prática</a><a href="a06_desafio.html">Desafio</a><a href="a06_feedback.html">Feedback</a></nav><span>FormaGeometricaTest.java</span></header><main class="main"><section class="pane"><div class="pane-title">Editor — código completo da etapa</div><div class="editor" id="code"></div></section><section class="pane"><div class="pane-title">Leitura da evidência</div><div class="explain"><h2 id="title"></h2><p id="text"></p><div class="evidence"><b>O que observar</b><p id="evidence"></p></div><div class="terminal" id="terminal"></div></div></section></main><div class="narration" id="narration"></div><div class="controls"><button id="prev">← Anterior</button><button id="replay">↻ Rever etapa</button><button id="next">Próxima →</button><div class="bar"><div class="fill" id="fill"></div></div><span class="count" id="count"></span></div><footer class="footer"><a href="a06_exposicao.html">← Exposição</a><a href="a06_pratica_guiada.html">Prática guiada →</a></footer><script>
+const steps=[
+{title:'1. Definir o contrato da hierarquia',text:'A superclasse abstrata declara o comportamento que toda forma concreta deve implementar.',evidence:'Não criamos new FormaGeometrica(), pois a classe representa um conceito incompleto.',terminal:'Contrato FormaGeometrica compilado.',code:`<span class="k">package</span> org.example.formas;
 
-  .main{flex:1; display:flex; overflow:hidden;}
-  .panel{flex:1; display:flex; flex-direction:column; overflow:hidden;}
-  .panel.editor{border-right:1px solid var(--rule);}
+<span class="k">public abstract class</span> <span class="t">FormaGeometrica</span> {
 
-  .panel-title{padding:10px 20px; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); border-bottom:1px solid var(--rule);}
+    <span class="c">// Cada subclasse fornecerá sua própria fórmula.</span>
+    <span class="k">public abstract double</span> calcularArea();
 
-  .code-area{
-    flex:1; background:var(--editor-bg); padding:20px 24px; font-family:'JetBrains Mono',monospace;
-    font-size:13.5px; line-height:1.7; overflow-y:auto; white-space:pre-wrap; word-break:break-word;
-  }
-  .k{color:#c792ea;} .a{color:#82aaff;} .s{color:#c3e88d;} .t{color:#ffcb6b;} .c{color:#546e8a;} .fn{color:#82aaff;}
-  .cursor{display:inline-block; width:8px; background:var(--accent); animation:blink 1s step-end infinite;}
-  @keyframes blink{50%{opacity:0;}}
-
-  .preview-area{flex:1; padding:0; overflow-y:auto; display:flex; align-items:stretch; justify-content:center;}
-  .terminal{background:#000; color:#c3e88d; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.7; padding:20px 22px; width:100%; white-space:pre-wrap;}
-  .terminal .prompt{color:#82aaff;}
-  .terminal .ok-line{color:#4ade80;}
-  .terminal .err-line{color:#f97373;}
-  .obj-empty{color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:13px; text-align:center; padding-top:40px; width:100%;}
-
-  .narration{padding:14px 28px; border-top:1px solid var(--rule); font-size:14px; color:var(--muted); min-height:20px;}
-  .narration b{color:var(--ink);}
-
-  .controls{display:flex; align-items:center; gap:14px; padding:14px 28px; border-top:1px solid var(--rule);}
-  button.ctrl{background:var(--panel); border:1px solid var(--rule); color:var(--ink); padding:9px 18px; border-radius:6px; font-size:13px; cursor:pointer; font-family:inherit;}
-  button.ctrl:hover{border-color:var(--accent);}
-  button.ctrl:disabled{opacity:.4; cursor:not-allowed;}
-  .progress-bar{flex:1; height:6px; background:var(--panel); border-radius:3px; overflow:hidden;}
-  .progress-fill{height:100%; background:var(--accent); width:0%; transition:width .3s;}
-  .step-label{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); min-width:70px; text-align:right;}
-
-  .footer-nav{display:flex; justify-content:space-between; padding:12px 28px; border-top:1px solid var(--rule); font-family:'JetBrains Mono',monospace; font-size:12px;}
-  .footer-nav a{color:var(--accent); text-decoration:none;}
-</style>
-</head>
-<body>
-
-<div class="hdr">
-  <span>UC <b>Teste de Sistemas</b> · Aula 06 — Demo ao Vivo</span>
-  <span>Organizando testes com @Nested</span>
-</div>
-
-<div class="main">
-  <div class="panel editor">
-    <div class="panel-title">Editor — FormaGeometricaTest.java</div>
-    <div class="code-area" id="codeArea"></div>
-  </div>
-  <div class="panel">
-    <div class="panel-title">Preview — terminal</div>
-    <div class="preview-area" id="previewArea">
-      <div class="obj-empty">Aguardando a execução dos testes...<br>Acompanhe a construção ao lado →</div>
-    </div>
-  </div>
-</div>
-
-<div class="narration" id="narration">Clique em <b>Iniciar digitação</b> para começar a construção da classe <b>Produto</b>.</div>
-
-<div class="controls">
-  <button class="ctrl" id="btnPrev" onclick="prevStep()">← Anterior</button>
-  <button class="ctrl" id="btnPlay" onclick="playStep()">▶ Iniciar digitação</button>
-  <button class="ctrl" id="btnNext" onclick="nextStep()">Próxima →</button>
-  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  <div class="step-label" id="stepLabel">Etapa 0/5</div>
-</div>
-
-<div class="footer-nav">
-  <a href="a06_exposicao.html">← Exposição</a>
-  <a href="a06_pratica_guiada.html">Prática Guiada →</a>
-</div>
-
-<script>
-const steps = [
-  {
-    narration: "Etapa 1 — Criamos a classe de teste externa, que vai abrigar os grupos aninhados.",
-    code: `<span class="k">class</span> <span class="t">FormaGeometricaTest</span> {\n\n}`,
-    preview: null
-  },
-  {
-    narration: "Etapa 2 — Criamos o primeiro grupo @Nested, para os testes de Quadrado.",
-    code: `<span class="k">class</span> <span class="t">FormaGeometricaTest</span> {\n\n    <span class="fn">@Nested</span>\n    <span class="fn">@DisplayName</span>(<span class="s">"Testes de Quadrado"</span>)\n    <span class="k">class</span> <span class="t">TestesQuadrado</span> {\n    }\n}`,
-    preview: null
-  },
-  {
-    narration: "Etapa 3 — Adicionamos o teste dentro do grupo, com @DisplayName legível.",
-    code: `    <span class="fn">@Nested</span>\n    <span class="fn">@DisplayName</span>(<span class="s">"Testes de Quadrado"</span>)\n    <span class="k">class</span> <span class="t">TestesQuadrado</span> {\n        <span class="fn">@Test</span>\n        <span class="fn">@DisplayName</span>(<span class="s">"Área deve ser lado ao quadrado"</span>)\n        <span class="k">void</span> <span class="fn">calcularAreaDeveElevarAoQuadrado</span>() {\n            assertEquals(<span class="s">16.0</span>, <span class="k">new</span> <span class="fn">Quadrado</span>(<span class="s">4</span>).calcularArea());\n        }\n    }`,
-    preview: null
-  },
-  {
-    narration: "Etapa 4 — Repetimos a estrutura para o grupo de Círculo, com @Tag.",
-    code: `    <span class="fn">@Nested</span>\n    <span class="fn">@DisplayName</span>(<span class="s">"Testes de Círculo"</span>)\n    <span class="fn">@Tag</span>(<span class="s">"geometria-circular"</span>)\n    <span class="k">class</span> <span class="t">TestesCirculo</span> {\n        <span class="fn">@Test</span>\n        <span class="fn">@DisplayName</span>(<span class="s">"Área deve seguir π × r²"</span>)\n        <span class="k">void</span> <span class="fn">calcularAreaDeveUsarFormula</span>() { ... }\n    }`,
-    preview: null
-  },
-  {
-    narration: "Etapa 5 — Rodamos a classe: repare como o IntelliJ organiza os testes em uma árvore, com nomes legíveis →",
-    code: `<span class="c">// Classe organizada e salva.</span>\n<span class="c">// Rodando pelo IntelliJ (Run 'FormaGeometricaTest'):</span>`,
-    preview: "terminal"
-  }
-];
-
-let current = -1;
-let typing = false;
-
-function updateControls(){
-  document.getElementById('btnPrev').disabled = current <= 0;
-  document.getElementById('btnPlay').disabled = typing;
-  document.getElementById('btnNext').disabled = current >= steps.length - 1 || typing;
-  document.getElementById('stepLabel').textContent = `Etapa ${Math.max(current+1,0)}/${steps.length}`;
-  document.getElementById('progressFill').style.width = `${Math.max(current+1,0) / steps.length * 100}%`;
-}
-
-function renderPreview(step){
-  const area = document.getElementById('previewArea');
-  if(!step || !step.preview){
-    area.innerHTML = '<div class="obj-empty">Aguardando a execução dos testes...<br>Acompanhe a construção ao lado →</div>';
-    return;
-  }
-  area.innerHTML = `
-    <div class="terminal">Run: <span class="prompt">FormaGeometricaTest</span>
-
-FormaGeometricaTest
- ├─ Testes de Quadrado
- │   └─ <span class="ok-line">✓ Área deve ser lado ao quadrado</span>
- └─ Testes de Círculo  [geometria-circular]
-     └─ <span class="ok-line">✓ Área deve seguir π × r²</span>
-
-<span class="ok-line">Tests passed: 2 of 2 test — 6ms</span></div>`;
-}
-
-async function typeCode(html){
-  const area = document.getElementById('codeArea');
-  area.innerHTML = '<span class="cursor">&nbsp;</span>';
-  typing = true;
-  updateControls();
-
-  // Parse html into a flat sequence of characters, preserving tags as atomic tokens
-  const tokens = html.match(/<[^>]+>|[\s\S]/g) || [];
-  let built = '';
-  for(const tok of tokens){
-    if(tok.startsWith('<')){
-      built += tok;
-      area.innerHTML = built + '<span class="cursor">&nbsp;</span>';
-      continue;
+    <span class="c">// Comportamento concreto herdado por todas as formas.</span>
+    <span class="k">public</span> <span class="t">String</span> descricao() {
+        <span class="k">return</span> <span class="s">"Forma geométrica"</span>;
     }
-    built += tok;
-    area.innerHTML = built + '<span class="cursor">&nbsp;</span>';
-    let delay;
-    if(tok === '\n') delay = 60;
-    else if(tok === ' ') delay = 20;
-    else delay = 18 + Math.random() * 25;
-    await new Promise(r => setTimeout(r, delay));
-    area.scrollTop = area.scrollHeight;
-  }
-  area.innerHTML = built;
-  typing = false;
-  updateControls();
-}
+}`},
+{title:'2. Implementar Quadrado',text:'Quadrado herda o contrato e sobrescreve calcularArea com lado vezes lado.',evidence:'A validação no construtor impede objetos impossíveis ou sem área positiva.',terminal:'Quadrado compilado: contrato implementado.',code:`<span class="k">package</span> org.example.formas;
 
-async function playStep(){
-  if(typing) return;
-  if(current === -1) current = 0;
-  const step = steps[current];
-  document.getElementById('narration').innerHTML = step.narration;
-  document.getElementById('btnPlay').textContent = '↻ Rever';
-  await typeCode(step.code);
-  renderPreview(step);
-  updateControls();
-}
+<span class="k">public class</span> <span class="t">Quadrado</span> <span class="k">extends</span> <span class="t">FormaGeometrica</span> {
+    <span class="k">private final double</span> lado;
 
-function nextStep(){
-  if(typing || current >= steps.length - 1) return;
-  current++;
-  const step = steps[current];
-  document.getElementById('narration').innerHTML = step.narration;
-  document.getElementById('codeArea').innerHTML = step.code;
-  renderPreview(step);
-  document.getElementById('btnPlay').textContent = '↻ Rever';
-  updateControls();
-}
+    <span class="k">public</span> Quadrado(<span class="k">double</span> lado) {
+        <span class="k">if</span> (lado &lt;= <span class="n">0</span>) {
+            <span class="k">throw new</span> <span class="t">IllegalArgumentException</span>(
+                <span class="s">"O lado deve ser maior que zero."</span>
+            );
+        }
+        <span class="k">this</span>.lado = lado;
+    }
 
-function prevStep(){
-  if(typing || current <= 0) return;
-  current--;
-  const step = steps[current];
-  document.getElementById('narration').innerHTML = step.narration;
-  document.getElementById('codeArea').innerHTML = step.code;
-  renderPreview(step);
-  updateControls();
-}
+    <span class="a">@Override</span>
+    <span class="k">public double</span> calcularArea() {
+        <span class="k">return</span> lado * lado;
+    }
+}`},
+{title:'3. Implementar Círculo',text:'Círculo cumpre o mesmo contrato usando uma fórmula diferente.',evidence:'Essa diferença de implementação é a base para observar o polimorfismo.',terminal:'Circulo compilado: contrato implementado.',code:`<span class="k">package</span> org.example.formas;
 
-updateControls();
-</script>
+<span class="k">public class</span> <span class="t">Circulo</span> <span class="k">extends</span> <span class="t">FormaGeometrica</span> {
+    <span class="k">private final double</span> raio;
 
-</body>
-</html>
+    <span class="k">public</span> Circulo(<span class="k">double</span> raio) {
+        <span class="k">if</span> (raio &lt;= <span class="n">0</span>) {
+            <span class="k">throw new</span> <span class="t">IllegalArgumentException</span>(
+                <span class="s">"O raio deve ser maior que zero."</span>
+            );
+        }
+        <span class="k">this</span>.raio = raio;
+    }
+
+    <span class="a">@Override</span>
+    <span class="k">public double</span> calcularArea() {
+        <span class="k">return</span> Math.PI * raio * raio;
+    }
+}`},
+{title:'4. Criar o esqueleto organizado',text:'A classe recebe um nome legível e cada subclasse ganha seu próprio contexto Nested.',evidence:'O relatório passa a refletir a estrutura conceitual da hierarquia.',terminal:'2 grupos de testes descobertos.',code:`<span class="k">package</span> org.example.formas;
+
+<span class="k">import</span> org.junit.jupiter.api.*;
+<span class="k">import static</span> org.junit.jupiter.api.Assertions.*;
+
+<span class="a">@DisplayName</span>(<span class="s">"Hierarquia de formas geométricas"</span>)
+<span class="k">class</span> <span class="t">FormaGeometricaTest</span> {
+
+    <span class="a">@Nested</span>
+    <span class="a">@DisplayName</span>(<span class="s">"Ao trabalhar com Quadrado"</span>)
+    <span class="k">class</span> <span class="t">TestesQuadrado</span> {
+    }
+
+    <span class="a">@Nested</span>
+    <span class="a">@Tag</span>(<span class="s">"geometria-circular"</span>)
+    <span class="a">@DisplayName</span>(<span class="s">"Ao trabalhar com Círculo"</span>)
+    <span class="k">class</span> <span class="t">TestesCirculo</span> {
+    }
+}`},
+{title:'5. Testar Quadrado',text:'O grupo concentra a fórmula e a validação do lado.',evidence:'DisplayName transforma o cenário em uma frase; assertThrows verifica a proteção do construtor.',terminal:'✓ Quadrado: 2 testes verdes.',code:`<span class="a">@Nested</span>
+<span class="a">@DisplayName</span>(<span class="s">"Ao trabalhar com Quadrado"</span>)
+<span class="k">class</span> <span class="t">TestesQuadrado</span> {
+
+    <span class="a">@Test</span>
+    <span class="a">@DisplayName</span>(<span class="s">"Lado 4 deve produzir área 16"</span>)
+    <span class="k">void</span> areaDeveSerLadoAoQuadrado() {
+        <span class="t">Quadrado</span> quadrado = <span class="k">new</span> <span class="t">Quadrado</span>(<span class="n">4.0</span>);
+        assertEquals(<span class="n">16.0</span>, quadrado.calcularArea(), <span class="n">0.001</span>);
+    }
+
+    <span class="a">@Test</span>
+    <span class="a">@DisplayName</span>(<span class="s">"Lado zero deve ser rejeitado"</span>)
+    <span class="k">void</span> ladoZeroDeveLancarExcecao() {
+        <span class="t">IllegalArgumentException</span> erro = assertThrows(
+            <span class="t">IllegalArgumentException</span>.<span class="k">class</span>,
+            () -&gt; <span class="k">new</span> <span class="t">Quadrado</span>(<span class="n">0</span>)
+        );
+        assertEquals(<span class="s">"O lado deve ser maior que zero."</span>, erro.getMessage());
+    }
+}`},
+{title:'6. Testar Círculo e aplicar Tag',text:'O grupo inteiro recebe a tag geometria-circular.',evidence:'O delta é necessário porque a fórmula usa Math.PI e produz ponto flutuante.',terminal:'✓ Círculo: 2 testes verdes.\nTag: geometria-circular',code:`<span class="a">@Nested</span>
+<span class="a">@Tag</span>(<span class="s">"geometria-circular"</span>)
+<span class="a">@DisplayName</span>(<span class="s">"Ao trabalhar com Círculo"</span>)
+<span class="k">class</span> <span class="t">TestesCirculo</span> {
+
+    <span class="a">@Test</span>
+    <span class="a">@DisplayName</span>(<span class="s">"Raio 2 deve produzir área igual a 4π"</span>)
+    <span class="k">void</span> areaDeveUsarPi() {
+        <span class="t">Circulo</span> circulo = <span class="k">new</span> <span class="t">Circulo</span>(<span class="n">2.0</span>);
+        assertEquals(Math.PI * <span class="n">4</span>, circulo.calcularArea(), <span class="n">0.0001</span>);
+    }
+
+    <span class="a">@Test</span>
+    <span class="a">@DisplayName</span>(<span class="s">"Raio negativo deve ser rejeitado"</span>)
+    <span class="k">void</span> raioNegativoDeveLancarExcecao() {
+        assertThrows(
+            <span class="t">IllegalArgumentException</span>.<span class="k">class</span>,
+            () -&gt; <span class="k">new</span> <span class="t">Circulo</span>(-<span class="n">1.0</span>)
+        );
+    }
+}`},
+{title:'7. Provar o polimorfismo',text:'Referências do tipo geral apontam para objetos concretos diferentes.',evidence:'O mesmo comando calcularArea executa a implementação correspondente ao objeto real.',terminal:'✓ Polimorfismo: 2 comportamentos confirmados.',code:`<span class="a">@Nested</span>
+<span class="a">@DisplayName</span>(<span class="s">"Ao usar formas polimorficamente"</span>)
+<span class="k">class</span> <span class="t">TestesPolimorfismo</span> {
+
+    <span class="a">@Test</span>
+    <span class="a">@DisplayName</span>(<span class="s">"Cada objeto deve executar sua própria fórmula"</span>)
+    <span class="k">void</span> cadaFormaDeveCalcularSuaArea() {
+        <span class="t">FormaGeometrica</span> quadrado = <span class="k">new</span> <span class="t">Quadrado</span>(<span class="n">3.0</span>);
+        <span class="t">FormaGeometrica</span> circulo = <span class="k">new</span> <span class="t">Circulo</span>(<span class="n">1.0</span>);
+
+        assertAll(
+            () -&gt; assertEquals(<span class="n">9.0</span>, quadrado.calcularArea(), <span class="n">0.001</span>),
+            () -&gt; assertEquals(Math.PI, circulo.calcularArea(), <span class="n">0.0001</span>)
+        );
+    }
+}`},
+{title:'8. Ler o relatório final',text:'A estrutura do código agora aparece como uma árvore de comportamentos.',evidence:'Uma falha aponta para a forma, o contexto e a regra exata.',terminal:'Hierarquia de formas geométricas\n├─ Ao trabalhar com Quadrado ✔\n│  ├─ Lado 4 deve produzir área 16 ✔\n│  └─ Lado zero deve ser rejeitado ✔\n├─ Ao trabalhar com Círculo ✔\n│  ├─ Raio 2 deve produzir área igual a 4π ✔\n│  └─ Raio negativo deve ser rejeitado ✔\n└─ Ao usar formas polimorficamente ✔\n   └─ Cada objeto deve executar sua própria fórmula ✔',code:`<span class="c">// Resultado:</span>
+<span class="c">// - nomes compreensíveis;</span>
+<span class="c">// - cenários agrupados;</span>
+<span class="c">// - categoria filtrável;</span>
+<span class="c">// - regras específicas e contrato polimórfico verificados.</span>`}
+];let current=0;const $=id=>document.getElementById(id);function render(){const s=steps[current];$('title').textContent=s.title;$('text').textContent=s.text;$('evidence').textContent=s.evidence;$('terminal').textContent=s.terminal;$('code').innerHTML=s.code;$('narration').innerHTML=`<b>Etapa:</b> ${s.text}`;$('fill').style.width=`${(current+1)/steps.length*100}%`;$('count').textContent=`${current+1} / ${steps.length}`;$('prev').disabled=current===0;$('next').disabled=current===steps.length-1}$('prev').onclick=()=>{if(current>0){current--;render()}};$('next').onclick=()=>{if(current<steps.length-1){current++;render()}};$('replay').onclick=render;document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&current<steps.length-1){current++;render()}if(e.key==='ArrowLeft'&&current>0){current--;render()}});render();
+</script></body></html>

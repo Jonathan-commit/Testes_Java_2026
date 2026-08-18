@@ -1,248 +1,120 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 06 — Prática Guiada | Teste de Sistemas</title>
-<style>
-  :root{--bg:#0f172a; --panel:#1b2b4d; --ink:#e6ebf5; --muted:#93a3c2; --accent:#4ade80; --rule:#2b3a5e; --editor-bg:#0b1424;}
-  *{box-sizing:border-box;}
-  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; min-height:100vh; display:flex; flex-direction:column;}
-  .hdr{display:flex; justify-content:space-between; align-items:center; padding:14px 28px; border-bottom:1px solid var(--rule); font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
-  .hdr b{color:var(--accent);}
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aula 06 — Prática guiada</title><style>
+:root{--bg:#08111f;--panel:#12233e;--ink:#edf4ff;--muted:#a9bad5;--accent:#4ade80;--blue:#60a5fa;--amber:#fbbf24;--rule:#294261;--code:#07101d}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif}.hdr{display:flex;justify-content:space-between;gap:15px;padding:11px 22px;border-bottom:1px solid var(--rule);font-size:12px;color:var(--muted)}.hdr b,.track a.active{color:var(--accent)}.track{display:flex;gap:7px}.track a{color:var(--muted);text-decoration:none}.wrap{width:min(1000px,100%);margin:auto;padding:32px 22px 52px;flex:1}h1{font-size:clamp(28px,4vw,42px);margin:0 0 8px}.sub{color:var(--muted);line-height:1.6}.bar{height:5px;background:var(--panel);border-radius:5px;margin:20px 0}.fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--blue));transition:.25s}.step{background:var(--panel);border:1px solid var(--rule);border-radius:10px;margin:10px 0;overflow:hidden}.step.done{border-color:var(--accent)}.step-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer}.num{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--code);color:var(--accent);font:800 12px "JetBrains Mono",monospace}.step.done .num{background:var(--accent);color:var(--bg)}.title{font-weight:750;flex:1}.arrow{color:var(--muted)}.step.open .arrow{transform:rotate(90deg)}.body{display:none;border-top:1px solid var(--rule)}.step.open .body{display:block}.inside{padding:17px 18px}.inside p,.hint{color:var(--muted);line-height:1.55}.code{background:var(--code);border:1px solid var(--rule);border-radius:9px;overflow:auto;margin:12px 0}.code pre{margin:0;padding:15px;font:12px/1.58 "JetBrains Mono",Consolas,monospace;color:#dbeafe}.k{color:#c792ea}.t{color:#ffcb6b}.s{color:#c3e88d}.c{color:#6f86a8;font-style:italic}.a{color:#89ddff}.n{color:#f78c6c}.actions{display:flex;gap:8px}button{border:1px solid var(--rule);background:var(--code);color:var(--ink);padding:8px 11px;border-radius:6px;cursor:pointer}.done-btn{background:var(--accent);color:var(--bg);font-weight:800}.hint{display:none;background:rgba(251,191,36,.08);border-left:3px solid var(--amber);padding:11px 13px;margin-top:10px}.hint.show{display:block}.footer{display:flex;justify-content:space-between;padding:11px 22px;border-top:1px solid var(--rule);font-size:12px}.footer a{color:var(--accent);text-decoration:none}@media(max-width:700px){.track{display:none}.wrap{padding:24px 14px 40px}.hdr span:last-child{display:none}.code pre{font-size:10.6px}}
+</style></head><body><header class="hdr"><span>UC <b>Teste de Sistemas</b> · Aula 06 — Prática guiada</span><nav class="track"><a href="a06_exposicao.html">Exposição</a><a href="a06_demo_ao_vivo.html">Demo</a><a class="active" href="a06_pratica_guiada.html">Prática</a><a href="a06_desafio.html">Desafio</a><a href="a06_feedback.html">Feedback</a></nav><span>7 etapas · aproximadamente 80 min</span></header><main class="wrap"><h1>Prática guiada — formas geométricas organizadas</h1><p class="sub">Construa a hierarquia, organize a suíte por contexto e verifique as regras específicas e o comportamento polimórfico.</p><div class="bar"><div class="fill" id="fill"></div></div>
+<section class="step open"><div class="step-head"><span class="num">1</span><span class="title">Criar a superclasse abstrata</span><span class="arrow">▶</span></div><div class="body"><div class="inside"><p>Crie o contrato comum em <code>FormaGeometrica.java</code>.</p><div class="code"><pre><span class="k">package</span> org.example.formas;
 
-  .wrap{max-width:820px; margin:0 auto; padding:36px 24px 60px; width:100%;}
-  h1{font-size:26px; margin:0 0 6px;}
-  p.sub{color:var(--muted); font-size:14.5px; margin:0 0 24px;}
+<span class="k">public abstract class</span> <span class="t">FormaGeometrica</span> {
+    <span class="c">// Obriga cada forma concreta a fornecer sua fórmula.</span>
+    <span class="k">public abstract double</span> calcularArea();
 
-  .progress-bar{height:6px; background:var(--panel); border-radius:3px; overflow:hidden; margin-bottom:28px;}
-  .progress-fill{height:100%; background:var(--accent); width:0%; transition:width .3s;}
+    <span class="c">// Método concreto herdado pelas subclasses.</span>
+    <span class="k">public</span> <span class="t">String</span> descricao() {
+        <span class="k">return</span> <span class="s">"Forma geométrica"</span>;
+    }
+}</pre></div><div class="actions"><button class="hint-btn">💡 Dica</button><button class="done-btn">Marcar concluído</button></div><div class="hint">Tente instanciar <code>FormaGeometrica</code>. O compilador impedirá, pois a classe é abstrata.</div></div></div></section>
+<section class="step"><div class="step-head"><span class="num">2</span><span class="title">Implementar Quadrado com validação</span><span class="arrow">▶</span></div><div class="body"><div class="inside"><p>A subclasse deve herdar de <code>FormaGeometrica</code>, validar o lado e sobrescrever o cálculo.</p><div class="code"><pre><span class="k">package</span> org.example.formas;
 
-  .step{background:var(--panel); border:1px solid var(--rule); border-radius:10px; margin-bottom:14px; overflow:hidden;}
-  .step-hdr{display:flex; align-items:center; gap:14px; padding:16px 20px; cursor:pointer;}
-  .step-num{
-    width:30px; height:30px; border-radius:50%; background:var(--editor-bg); border:1px solid var(--rule);
-    display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:13px; flex-shrink:0;
-  }
-  .step.done .step-num{background:var(--accent); color:#0f172a; border-color:var(--accent);}
-  .step-title{flex:1; font-weight:600; font-size:15px;}
-  .step-arrow{color:var(--muted); transition:.2s;}
-  .step.open .step-arrow{transform:rotate(90deg);}
+<span class="k">public class</span> <span class="t">Quadrado</span> <span class="k">extends</span> <span class="t">FormaGeometrica</span> {
+    <span class="k">private final double</span> lado;
 
-  .step-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
-  .step.open .step-body{max-height:900px;}
-  .step-inner{padding:0 20px 20px 64px;}
-  .step-inner p{font-size:14.5px; color:var(--ink); line-height:1.6; margin:0 0 12px;}
-
-  .code-wrap{background:var(--editor-bg); border:1px solid var(--rule); border-radius:8px; padding:14px 18px; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.6; overflow-x:auto; margin:12px 0;}
-  .k{color:#c792ea;} .a{color:#82aaff;} .s{color:#c3e88d;} .t{color:#ffcb6b;} .c{color:#546e8a;} .fn{color:#82aaff;}
-
-  .step-actions{display:flex; gap:10px; margin-top:10px;}
-  button.hint-btn, button.done-btn{
-    font-family:inherit; font-size:12.5px; padding:8px 14px; border-radius:6px; cursor:pointer; border:1px solid var(--rule);
-  }
-  button.hint-btn{background:transparent; color:var(--muted);}
-  button.hint-btn:hover{border-color:var(--accent); color:var(--accent);}
-  button.done-btn{background:var(--accent); color:#0f172a; border-color:var(--accent); font-weight:600;}
-  .hint-box{display:none; background:#241a0b; border-left:3px solid #fbbf24; padding:10px 14px; font-size:13px; color:#fbbf24; border-radius:6px; margin-top:10px;}
-  .hint-box.show{display:block;}
-
-  .footer-nav{display:flex; justify-content:space-between; padding:14px 28px; border-top:1px solid var(--rule); font-family:'JetBrains Mono',monospace; font-size:12px; margin-top:auto;}
-  .footer-nav a{color:var(--accent); text-decoration:none;}
-</style>
-</head>
-<body>
-
-<div class="hdr">
-  <span>UC <b>Teste de Sistemas</b> · Aula 06 — Prática Guiada</span>
-  <span>Testando uma hierarquia com @Nested</span>
-</div>
-
-<div class="wrap">
-  <h1>Prática guiada — testando a hierarquia Animal</h1>
-  <p class="sub">Siga os passos abaixo para revisar herança/polimorfismo e organizar os testes com @Nested e @DisplayName.</p>
-
-  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-
-  <div class="step" id="step-1">
-    <div class="step-hdr" onclick="toggleStep(1)">
-      <div class="step-num">1</div>
-      <div class="step-title">Criar a superclasse abstrata Animal</div>
-      <div class="step-arrow">▶</div>
-    </div>
-    <div class="step-body">
-      <div class="step-inner">
-        <p>Crie a classe abstrata <code>Animal</code>, com o método abstrato <code>emitirSom()</code> (retorna String).</p>
-        <div class="code-wrap"><pre>
-<span class="k">public abstract class</span> <span class="t">Animal</span> {
-    <span class="k">protected</span> <span class="t">String</span> nome;
-
-    <span class="k">public</span> <span class="fn">Animal</span>(<span class="t">String</span> nome) { <span class="k">this</span>.nome = nome; }
-
-    <span class="k">public abstract</span> <span class="t">String</span> <span class="fn">emitirSom</span>();
-}
-        </pre></div>
-        <div class="step-actions">
-          <button class="hint-btn" onclick="toggleHint(1)">💡 Dica</button>
-          <button class="done-btn" onclick="markDone(1)">Marcar como concluído</button>
-        </div>
-        <div class="hint-box" id="hint-1">Uma classe abstrata não pode ser instanciada diretamente com "new Animal(...)" — só suas subclasses concretas podem.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="step" id="step-2">
-    <div class="step-hdr" onclick="toggleStep(2)">
-      <div class="step-num">2</div>
-      <div class="step-title">Criar as subclasses Cachorro e Gato</div>
-      <div class="step-arrow">▶</div>
-    </div>
-    <div class="step-body">
-      <div class="step-inner">
-        <p>Cada subclasse implementa <code>emitirSom()</code> com seu próprio comportamento.</p>
-        <div class="code-wrap"><pre>
-<span class="k">public class</span> <span class="t">Cachorro</span> <span class="k">extends</span> <span class="t">Animal</span> {
-    <span class="k">public</span> <span class="fn">Cachorro</span>(<span class="t">String</span> nome) { <span class="k">super</span>(nome); }
-    <span class="fn">@Override</span>
-    <span class="k">public</span> <span class="t">String</span> <span class="fn">emitirSom</span>() { <span class="k">return</span> <span class="s">"Au au!"</span>; }
-}
-
-<span class="k">public class</span> <span class="t">Gato</span> <span class="k">extends</span> <span class="t">Animal</span> {
-    <span class="k">public</span> <span class="fn">Gato</span>(<span class="t">String</span> nome) { <span class="k">super</span>(nome); }
-    <span class="fn">@Override</span>
-    <span class="k">public</span> <span class="t">String</span> <span class="fn">emitirSom</span>() { <span class="k">return</span> <span class="s">"Miau!"</span>; }
-}
-        </pre></div>
-        <div class="step-actions">
-          <button class="hint-btn" onclick="toggleHint(2)">💡 Dica</button>
-          <button class="done-btn" onclick="markDone(2)">Marcar como concluído</button>
-        </div>
-        <div class="hint-box" id="hint-2">"super(nome)" chama o construtor da superclasse Animal, reaproveitando a lógica de inicialização do nome.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="step" id="step-3">
-    <div class="step-hdr" onclick="toggleStep(3)">
-      <div class="step-num">3</div>
-      <div class="step-title">Criar a classe de teste com @Nested para Cachorro</div>
-      <div class="step-arrow">▶</div>
-    </div>
-    <div class="step-body">
-      <div class="step-inner">
-        <p>Crie <code>AnimalTest</code> com um grupo @Nested para os testes de Cachorro.</p>
-        <div class="code-wrap"><pre>
-<span class="k">class</span> <span class="t">AnimalTest</span> {
-
-    <span class="fn">@Nested</span>
-    <span class="fn">@DisplayName</span>(<span class="s">"Testes de Cachorro"</span>)
-    <span class="k">class</span> <span class="t">TestesCachorro</span> {
-        <span class="fn">@Test</span>
-        <span class="fn">@DisplayName</span>(<span class="s">"Deve emitir 'Au au!'"</span>)
-        <span class="k">void</span> <span class="fn">emitirSomDeveSerLatido</span>() {
-            assertEquals(<span class="s">"Au au!"</span>, <span class="k">new</span> <span class="fn">Cachorro</span>(<span class="s">"Rex"</span>).emitirSom());
+    <span class="k">public</span> Quadrado(<span class="k">double</span> lado) {
+        <span class="k">if</span> (lado &lt;= <span class="n">0</span>) {
+            <span class="k">throw new</span> <span class="t">IllegalArgumentException</span>(
+                <span class="s">"O lado deve ser maior que zero."</span>
+            );
         }
+        <span class="k">this</span>.lado = lado;
     }
-}
-        </pre></div>
-        <div class="step-actions">
-          <button class="hint-btn" onclick="toggleHint(3)">💡 Dica</button>
-          <button class="done-btn" onclick="markDone(3)">Marcar como concluído</button>
-        </div>
-        <div class="hint-box" id="hint-3">Repare que @Nested é aplicado à CLASSE interna, e @DisplayName pode ser usado tanto nela quanto em cada @Test.</div>
-      </div>
-    </div>
-  </div>
 
-  <div class="step" id="step-4">
-    <div class="step-hdr" onclick="toggleStep(4)">
-      <div class="step-num">4</div>
-      <div class="step-title">Repetir a estrutura para Gato</div>
-      <div class="step-arrow">▶</div>
-    </div>
-    <div class="step-body">
-      <div class="step-inner">
-        <p>Crie o segundo grupo @Nested, testando o comportamento de Gato.</p>
-        <div class="code-wrap"><pre>
-    <span class="fn">@Nested</span>
-    <span class="fn">@DisplayName</span>(<span class="s">"Testes de Gato"</span>)
-    <span class="k">class</span> <span class="t">TestesGato</span> {
-        <span class="fn">@Test</span>
-        <span class="fn">@DisplayName</span>(<span class="s">"Deve emitir 'Miau!'"</span>)
-        <span class="k">void</span> <span class="fn">emitirSomDeveSerMiado</span>() {
-            assertEquals(<span class="s">"Miau!"</span>, <span class="k">new</span> <span class="fn">Gato</span>(<span class="s">"Whiskers"</span>).emitirSom());
+    <span class="a">@Override</span>
+    <span class="k">public double</span> calcularArea() {
+        <span class="k">return</span> lado * lado;
+    }
+}</pre></div><div class="actions"><button class="hint-btn">💡 Dica</button><button class="done-btn">Marcar concluído</button></div><div class="hint"><code>@Override</code> pede ao compilador para confirmar que o método realmente sobrescreve o contrato.</div></div></div></section>
+<section class="step"><div class="step-head"><span class="num">3</span><span class="title">Implementar Círculo com validação</span><span class="arrow">▶</span></div><div class="body"><div class="inside"><p>Repita a estrutura, mas use a regra π × raio².</p><div class="code"><pre><span class="k">package</span> org.example.formas;
+
+<span class="k">public class</span> <span class="t">Circulo</span> <span class="k">extends</span> <span class="t">FormaGeometrica</span> {
+    <span class="k">private final double</span> raio;
+
+    <span class="k">public</span> Circulo(<span class="k">double</span> raio) {
+        <span class="k">if</span> (raio &lt;= <span class="n">0</span>) {
+            <span class="k">throw new</span> <span class="t">IllegalArgumentException</span>(
+                <span class="s">"O raio deve ser maior que zero."</span>
+            );
         }
+        <span class="k">this</span>.raio = raio;
     }
-        </pre></div>
-        <div class="step-actions">
-          <button class="hint-btn" onclick="toggleHint(4)">💡 Dica</button>
-          <button class="done-btn" onclick="markDone(4)">Marcar como concluído</button>
-        </div>
-        <div class="hint-box" id="hint-4">Cada grupo @Nested é independente — você pode ter quantos precisar dentro da mesma classe de teste.</div>
-      </div>
-    </div>
-  </div>
 
-  <div class="step" id="step-5">
-    <div class="step-hdr" onclick="toggleStep(5)">
-      <div class="step-num">5</div>
-      <div class="step-title">Adicionar @Tag e executar</div>
-      <div class="step-arrow">▶</div>
-    </div>
-    <div class="step-body">
-      <div class="step-inner">
-        <p>Marque o grupo de Gato com <code>@Tag("felinos")</code> e rode a classe inteira, observando a árvore de testes no IntelliJ.</p>
-        <div class="code-wrap"><pre>
-AnimalTest
- ├─ Testes de Cachorro
- │   └─ ✓ Deve emitir 'Au au!'
- └─ Testes de Gato  [felinos]
-     └─ ✓ Deve emitir 'Miau!'
-        </pre></div>
-        <div class="step-actions">
-          <button class="hint-btn" onclick="toggleHint(5)">💡 Dica</button>
-          <button class="done-btn" onclick="markDone(5)">Marcar como concluído</button>
-        </div>
-        <div class="hint-box" id="hint-5">No IntelliJ, a aba de execução mostra essa estrutura em árvore, exatamente como organizamos com @Nested.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="footer-nav">
-  <a href="a06_demo_ao_vivo.html">← Demo</a>
-  <a href="a06_desafio.html">Desafio →</a>
-</div>
-
-<script>
-  const totalSteps = 5;
-  let doneSteps = new Set();
-
-  function toggleStep(n){
-    const step = document.getElementById('step-' + n);
-    const isOpen = step.classList.contains('open');
-    document.querySelectorAll('.step').forEach(s => s.classList.remove('open'));
-    if(!isOpen) step.classList.add('open');
-  }
-
-  function toggleHint(n){
-    document.getElementById('hint-' + n).classList.toggle('show');
-  }
-
-  function markDone(n){
-    doneSteps.add(n);
-    document.getElementById('step-' + n).classList.add('done');
-    document.getElementById('progressFill').style.width = (doneSteps.size / totalSteps * 100) + '%';
-    if(n < totalSteps){
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('open'));
-      const next = document.getElementById('step-' + (n+1));
-      next.classList.add('open');
-      next.scrollIntoView({behavior:'smooth', block:'center'});
+    <span class="a">@Override</span>
+    <span class="k">public double</span> calcularArea() {
+        <span class="k">return</span> Math.PI * raio * raio;
     }
-  }
+}</pre></div><div class="actions"><button class="hint-btn">💡 Dica</button><button class="done-btn">Marcar concluído</button></div><div class="hint">O resultado usa <code>Math.PI</code>; os testes precisarão de delta.</div></div></div></section>
+<section class="step"><div class="step-head"><span class="num">4</span><span class="title">Criar a estrutura de testes aninhados</span><span class="arrow">▶</span></div><div class="body"><div class="inside"><p>Prepare a classe de teste com três contextos: Quadrado, Círculo e Polimorfismo.</p><div class="code"><pre><span class="k">package</span> org.example.formas;
 
-  toggleStep(1);
-</script>
+<span class="k">import</span> org.junit.jupiter.api.*;
+<span class="k">import static</span> org.junit.jupiter.api.Assertions.*;
 
-</body>
-</html>
+<span class="a">@DisplayName</span>(<span class="s">"Hierarquia de formas geométricas"</span>)
+<span class="k">class</span> <span class="t">FormaGeometricaTest</span> {
+
+    <span class="a">@Nested</span>
+    <span class="a">@DisplayName</span>(<span class="s">"Ao trabalhar com Quadrado"</span>)
+    <span class="k">class</span> <span class="t">TestesQuadrado</span> { }
+
+    <span class="a">@Nested</span>
+    <span class="a">@Tag</span>(<span class="s">"geometria-circular"</span>)
+    <span class="a">@DisplayName</span>(<span class="s">"Ao trabalhar com Círculo"</span>)
+    <span class="k">class</span> <span class="t">TestesCirculo</span> { }
+
+    <span class="a">@Nested</span>
+    <span class="a">@DisplayName</span>(<span class="s">"Ao usar formas polimorficamente"</span>)
+    <span class="k">class</span> <span class="t">TestesPolimorfismo</span> { }
+}</pre></div><div class="actions"><button class="hint-btn">💡 Dica</button><button class="done-btn">Marcar concluído</button></div><div class="hint">As classes internas não levam <code>static</code>. Caso contrário, o JUnit não as tratará como contextos aninhados.</div></div></div></section>
+<section class="step"><div class="step-head"><span class="num">5</span><span class="title">Adicionar cálculos e validações aos grupos</span><span class="arrow">▶</span></div><div class="body"><div class="inside"><p>Inclua estes métodos nas respectivas classes aninhadas.</p><div class="code"><pre><span class="c">// Dentro de TestesQuadrado</span>
+<span class="a">@Test</span>
+<span class="a">@DisplayName</span>(<span class="s">"Lado 4 deve produzir área 16"</span>)
+<span class="k">void</span> areaDeveSerLadoAoQuadrado() {
+    <span class="t">Quadrado</span> quadrado = <span class="k">new</span> <span class="t">Quadrado</span>(<span class="n">4.0</span>);
+    assertEquals(<span class="n">16.0</span>, quadrado.calcularArea(), <span class="n">0.001</span>);
+}
+
+<span class="a">@Test</span>
+<span class="a">@DisplayName</span>(<span class="s">"Lado zero deve ser rejeitado"</span>)
+<span class="k">void</span> ladoZeroDeveLancarExcecao() {
+    <span class="t">IllegalArgumentException</span> erro = assertThrows(
+        <span class="t">IllegalArgumentException</span>.<span class="k">class</span>,
+        () -&gt; <span class="k">new</span> <span class="t">Quadrado</span>(<span class="n">0</span>)
+    );
+    assertEquals(<span class="s">"O lado deve ser maior que zero."</span>, erro.getMessage());
+}
+
+<span class="c">// Dentro de TestesCirculo</span>
+<span class="a">@Test</span>
+<span class="a">@DisplayName</span>(<span class="s">"Raio 2 deve produzir área igual a 4π"</span>)
+<span class="k">void</span> areaDeveUsarPi() {
+    <span class="t">Circulo</span> circulo = <span class="k">new</span> <span class="t">Circulo</span>(<span class="n">2.0</span>);
+    assertEquals(Math.PI * <span class="n">4</span>, circulo.calcularArea(), <span class="n">0.0001</span>);
+}</pre></div><div class="actions"><button class="hint-btn">💡 Dica</button><button class="done-btn">Marcar concluído</button></div><div class="hint">Cada grupo deve reunir tanto o caminho válido quanto as validações específicas da subclasse.</div></div></div></section>
+<section class="step"><div class="step-head"><span class="num">6</span><span class="title">Adicionar o teste polimórfico</span><span class="arrow">▶</span></div><div class="body"><div class="inside"><p>Use o tipo da superclasse nas referências e verifique os resultados das implementações reais.</p><div class="code"><pre><span class="c">// Dentro de TestesPolimorfismo</span>
+<span class="a">@Test</span>
+<span class="a">@DisplayName</span>(<span class="s">"Cada objeto deve executar sua própria fórmula"</span>)
+<span class="k">void</span> cadaFormaDeveCalcularSuaArea() {
+    <span class="t">FormaGeometrica</span> forma1 = <span class="k">new</span> <span class="t">Quadrado</span>(<span class="n">3.0</span>);
+    <span class="t">FormaGeometrica</span> forma2 = <span class="k">new</span> <span class="t">Circulo</span>(<span class="n">1.0</span>);
+
+    assertAll(
+        () -&gt; assertEquals(<span class="n">9.0</span>, forma1.calcularArea(), <span class="n">0.001</span>),
+        () -&gt; assertEquals(Math.PI, forma2.calcularArea(), <span class="n">0.0001</span>)
+    );
+}</pre></div><div class="actions"><button class="hint-btn">💡 Dica</button><button class="done-btn">Marcar concluído</button></div><div class="hint">O teste não chama métodos específicos de Quadrado ou Círculo: ele usa apenas o contrato <code>FormaGeometrica</code>.</div></div></div></section>
+<section class="step"><div class="step-head"><span class="num">7</span><span class="title">Executar e ler a árvore de resultados</span><span class="arrow">▶</span></div><div class="body"><div class="inside"><p>Execute a classe inteira e depois filtre apenas a tag <code>geometria-circular</code>.</p><div class="code"><pre>Hierarquia de formas geométricas
+├─ Ao trabalhar com Quadrado ✔
+├─ Ao trabalhar com Círculo ✔
+└─ Ao usar formas polimorficamente ✔
+
+Filtro: geometria-circular
+└─ Ao trabalhar com Círculo ✔</pre></div><div class="actions"><button class="hint-btn">💡 Dica</button><button class="done-btn">Marcar concluído</button></div><div class="hint">Se todos os testes aparecem em uma lista plana, confira se as classes realmente têm <code>@Nested</code>.</div></div></div></section>
+</main><footer class="footer"><a href="a06_demo_ao_vivo.html">← Demonstração</a><a href="a06_desafio.html">Desafio autônomo →</a></footer><script>
+const steps=[...document.querySelectorAll('.step')],done=new Set();function refresh(){steps.forEach((s,i)=>s.classList.toggle('done',done.has(i)));document.getElementById('fill').style.width=`${done.size/steps.length*100}%`}steps.forEach((s,i)=>{s.querySelector('.step-head').onclick=()=>{const open=s.classList.contains('open');steps.forEach(x=>x.classList.remove('open'));if(!open)s.classList.add('open')};s.querySelector('.hint-btn').onclick=e=>{e.stopPropagation();s.querySelector('.hint').classList.toggle('show')};s.querySelector('.done-btn').onclick=e=>{e.stopPropagation();done.add(i);refresh();s.classList.remove('open');const next=steps[i+1];if(next){next.classList.add('open');next.scrollIntoView({behavior:'smooth',block:'center'})}}});refresh();
+</script></body></html>
